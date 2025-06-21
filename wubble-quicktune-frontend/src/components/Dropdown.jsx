@@ -6,6 +6,7 @@ const Dropdown = () => {
   const [genreOpen, setGenreOpen] = useState(false);
   const [selectedMood, setSelectedMood] = useState(null);
   const [selectedGenre, setSelectedGenre] = useState(null);
+  const [loading,setLoading] = useState(false)
 
   const moods = [
     { name: "Happy", emoji: "😊" },
@@ -47,6 +48,7 @@ const Dropdown = () => {
       </motion.h1>
       
       <div className="space-y-8 w-full max-w-md">
+        
         {/* Mood Selector */}
         <motion.div className="relative">
           <motion.button
