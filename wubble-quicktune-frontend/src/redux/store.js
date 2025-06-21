@@ -1,5 +1,5 @@
+import {thunk} from 'redux-thunk';
 import { legacy_createStore as createStore, applyMiddleware, combineReducers, compose } from 'redux';
-import thunk from 'redux-thunk';
 import musicReducer from './reducers/musicreducer';
 
 const rootReducer = combineReducers({
