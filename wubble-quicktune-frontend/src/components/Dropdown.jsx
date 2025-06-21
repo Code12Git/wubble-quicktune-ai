@@ -1,12 +1,14 @@
 import {  motion,AnimatePresence } from "framer-motion";
 import { useState } from "react";
-
+import {useDispatch} from 'react-redux'
+import { fetchAudio } from "../redux/actions/musicAction";
+import audioData from "../data";
 const Dropdown = () => {
   const [moodOpen, setMoodOpen] = useState(false);
   const [genreOpen, setGenreOpen] = useState(false);
   const [selectedMood, setSelectedMood] = useState(null);
   const [selectedGenre, setSelectedGenre] = useState(null);
-
+  const dispatch = useDispatch()
   const moods = [
     { name: "Happy", emoji: "😊" },
     { name: "Sad", emoji: "😢" },
@@ -31,6 +33,11 @@ const Dropdown = () => {
     setGenreOpen(false);
   };
 
+  const submitMusicHandler = (e) => {
+    e.preventDefault()
+    dispatch(fetchAudio(selectedMood,selectedGenre,audioData))
+  }
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -47,6 +54,7 @@ const Dropdown = () => {
       </motion.h1>
       
       <div className="space-y-8 w-full max-w-md">
+
         {/* Mood Selector */}
         <motion.div className="relative">
           <motion.button
@@ -147,6 +155,7 @@ const Dropdown = () => {
         {/* Submit Button */}
         {selectedMood && selectedGenre && (
           <motion.button
+            onClick={submitMusicHandler}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             whileHover={{ scale: 1.05 }}
