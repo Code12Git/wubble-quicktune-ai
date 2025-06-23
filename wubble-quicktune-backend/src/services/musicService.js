@@ -3,7 +3,6 @@ const { BAD_REQUEST } = require("../utils/errors");
 
 const fetchMusic = async (body) => {
   const { mood, genre, audioData } = body;
-  console.log(mood, genre);
   try {
     if (!mood || !genre || !audioData)
       throw new AppError({

@@ -7,7 +7,7 @@ import {
     happypop2,
     lofirelax1,
     lofirelax2
-  } from "../assets/audio";
+  } from "../assets/audio/index";
   
   const audioData = [
     // Happy 🎤 Pop

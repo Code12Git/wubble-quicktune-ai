@@ -1,18 +1,30 @@
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
-import { FaPlay, FaPause, FaHeart, FaRegHeart, FaDownload } from "react-icons/fa";
-
+import {
+  FaPlay,
+  FaPause,
+  FaHeart,
+  FaDownload,
+  FaSave,
+} from "react-icons/fa";
+import {useDispatch, useSelector} from 'react-redux'
+import { toggleSavedTrack } from "../redux/actions/musicAction";
+import MusicWaveLoader from "../ui/MusicWaveLoader";
 const TrackPreview = ({ track }) => {
-    
-  const { title, audioUrl, mood, genre, id } = track;
+  const { title, audioUrl, mood, genre } = track;
+  const { isLoading } = useSelector(state => state.music);
+
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+  const dispatch = useDispatch()
+  const likeKey = `likes_${title}`;
 
   useEffect(() => {
-    const likedTracks = JSON.parse(localStorage.getItem("likedTracks")) || [];
-    setLiked(likedTracks.includes(id));
-  }, [id]);
+    const storedLikes = parseInt(localStorage.getItem(likeKey)) || 0;
+    setLikeCount(storedLikes);
+  }, [likeKey]);
 
   const togglePlay = () => {
     if (isPlaying) {
@@ -23,62 +35,86 @@ const TrackPreview = ({ track }) => {
     setIsPlaying(!isPlaying);
   };
 
-  const toggleLike = () => {
-    const likedTracks = JSON.parse(localStorage.getItem("likedTracks")) || [];
-    let updatedLikes;
-    if (liked) {
-      updatedLikes = likedTracks.filter((trackId) => trackId !== id);
-    } else {
-      updatedLikes = [...likedTracks, id];
-    }
-    localStorage.setItem("likedTracks", JSON.stringify(updatedLikes));
-    setLiked(!liked);
+  const handleLike = () => {
+    const updatedCount = likeCount + 1;
+    localStorage.setItem(likeKey, updatedCount);
+    setLikeCount(updatedCount);
   };
 
-  return (
+  const handleTrackSaved = () => {
+    dispatch(toggleSavedTrack(track))
+  }
+  return isLoading ? (
+    <>
+      <MusicWaveLoader />
+    </>
+  ) : (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="max-w-xl w-full mx-auto bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center gap-4"
+      transition={{ duration: 0.6 }}
+      className="max-w-xl w-full mx-auto bg-white rounded-3xl shadow-xl p-6 md:p-8 flex flex-col items-center gap-6 border border-gray-200"
     >
-      <h2 className="text-xl font-semibold text-center">{title}</h2>
-
-      <div className="flex items-center gap-4">
-        <button
+      <h2 className="text-2xl font-bold text-gray-800 text-center">
+        🎵 {title}
+      </h2>
+  
+      <div className="flex items-center gap-6">
+        <motion.button
           onClick={togglePlay}
-          className="text-white bg-indigo-600 hover:bg-indigo-700 p-3 rounded-full shadow-md"
+          whileTap={{ scale: 0.9 }}
+          whileHover={{ scale: 1.05 }}
+          className="text-white cursor-pointer bg-indigo-600 hover:bg-indigo-700 p-4 rounded-full shadow-md transition-all"
         >
-          {isPlaying ? <FaPause /> : <FaPlay />}
-        </button>
-
-        <audio ref={audioRef} src={audioUrl} onEnded={() => setIsPlaying(false)} />
+          {isPlaying ? <FaPause size={20} /> : <FaPlay size={20} />}
+        </motion.button>
+  
+        <audio
+          ref={audioRef}
+          src={audioUrl}
+          onEnded={() => setIsPlaying(false)}
+        />
       </div>
-
-      <div className="flex gap-3">
-        <span className="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-700">
-          Mood: {mood}
+  
+      <div className="flex flex-wrap justify-center gap-3 text-sm">
+        <span className="px-4 py-1 rounded-full bg-blue-100 text-blue-700 font-medium shadow-sm">
+          🎭 Mood: {mood}
         </span>
-        <span className="px-3 py-1 text-sm rounded-full bg-green-100 text-green-700">
-          Genre: {genre}
+        <span className="px-4 py-1 rounded-full bg-green-100 text-green-700 font-medium shadow-sm">
+          🎧 Genre: {genre}
         </span>
       </div>
-
-      <div className="flex gap-4 mt-4">
-        <a
+  
+      <div className="flex gap-4 mt-2 items-center">
+        <motion.a
+          whileHover={{ scale: 1.05 }}
           href={audioUrl}
           download
-          className="bg-gray-200 hover:bg-gray-300 text-sm px-4 py-2 rounded-lg shadow-md"
+          className="bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm px-4 py-2 rounded-xl shadow transition-all flex items-center gap-2"
         >
-          <FaDownload className="inline mr-2" /> Download
-        </a>
-
-        <button onClick={toggleLike} className="text-red-500 text-xl">
-          {liked ? <FaHeart /> : <FaRegHeart />}
-        </button>
+          <FaDownload /> Download
+        </motion.a>
+  
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          onClick={handleTrackSaved}
+          className="bg-blue-100 cursor-pointer hover:bg-blue-200 text-blue-800 text-sm px-4 py-2 rounded-xl shadow transition-all flex items-center gap-2"
+        >
+          <FaSave /> Save
+        </motion.button>
+  
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          whileHover={{ scale: 1.1 }}
+          onClick={handleLike}
+          className="text-red-500 cursor-pointer text-xl flex items-center gap-2"
+        >
+          <FaHeart />{" "}
+          <span className="text-sm font-semibold">{likeCount}</span>
+        </motion.button>
       </div>
     </motion.div>
   );
-};
+}
 
 export default TrackPreview;

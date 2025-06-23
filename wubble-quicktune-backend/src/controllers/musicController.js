@@ -1,7 +1,6 @@
 const { responseManager, musicService } = require("../services");
 
 const get = async(request,response) => {
-    console.log("Added")
     try{
         const result = await musicService.fetchMusic(request.body)
         return responseManager.sendSuccessResponse(response,result,'Track fetched successfully')

@@ -1,5 +1,3 @@
-// src/actionTypes/musicTypes.js
-
 export const SET_MOOD = "SET_MOOD";
 export const SET_GENRE = "SET_GENRE";
 export const FETCH_TRACK_REQUEST = "FETCH_TRACK_REQUEST";
@@ -8,3 +6,4 @@ export const FETCH_TRACK_FAILURE = "FETCH_TRACK_FAILURE";
 export const PLAY_TRACK = "PLAY_TRACK";
 export const PAUSE_TRACK = "PAUSE_TRACK";
 export const TOGGLE_LIKE_TRACK = "TOGGLE_LIKE_TRACK";
+export const TOGGLE_SAVED_TRACK =' TOGGLE_SAVED_TRACK'

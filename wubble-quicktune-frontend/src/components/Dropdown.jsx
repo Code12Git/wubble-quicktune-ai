@@ -1,6 +1,7 @@
-import {  motion,AnimatePresence } from "framer-motion";
+// eslint-disable-next-line no-unused-vars
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import {useDispatch} from 'react-redux'
+import { useDispatch } from "react-redux";
 import { fetchAudio } from "../redux/actions/musicAction";
 import audioData from "../data";
 const Dropdown = () => {
@@ -8,19 +9,19 @@ const Dropdown = () => {
   const [genreOpen, setGenreOpen] = useState(false);
   const [selectedMood, setSelectedMood] = useState(null);
   const [selectedGenre, setSelectedGenre] = useState(null);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const moods = [
     { name: "Happy", emoji: "😊" },
     { name: "Sad", emoji: "😢" },
     { name: "Energetic", emoji: "⚡" },
-    { name: "Chill", emoji: "🍃" }
+    { name: "Chill", emoji: "🍃" },
   ];
 
   const genres = [
     { name: "Pop", emoji: "🎤" },
     { name: "Lo-fi", emoji: "🎧" },
     { name: "Cinematic", emoji: "🎬" },
-    { name: "EDM", emoji: "🕺" }
+    { name: "EDM", emoji: "🕺" },
   ];
 
   const handleMoodSelect = (mood) => {
@@ -34,17 +35,17 @@ const Dropdown = () => {
   };
 
   const submitMusicHandler = (e) => {
-    e.preventDefault()
-    dispatch(fetchAudio(selectedMood,selectedGenre,audioData))
-  }
+    e.preventDefault();
+      dispatch(fetchAudio(selectedMood, selectedGenre, audioData));
+  };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="bg-gradient-to-r from-amber-200 via-pink-300 to-indigo-400 min-h-screen w-full flex flex-col items-center justify-center p-8"
+      className="  flex flex-col items-center justify-center p-8"
     >
-      <motion.h1 
+      <motion.h1
         initial={{ y: -20 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 300 }}
@@ -52,9 +53,8 @@ const Dropdown = () => {
       >
         <span>🎵</span> Music Selector <span>🎶</span>
       </motion.h1>
-      
-      <div className="space-y-8 w-full max-w-md">
 
+      <div className="space-y-8 w-full max-w-md">
         {/* Mood Selector */}
         <motion.div className="relative">
           <motion.button
@@ -75,7 +75,7 @@ const Dropdown = () => {
               ⌄
             </motion.span>
           </motion.button>
-          
+
           <AnimatePresence>
             {moodOpen && (
               <motion.ul
@@ -89,7 +89,10 @@ const Dropdown = () => {
                   <motion.li
                     key={mood.name}
                     onClick={() => handleMoodSelect(mood)}
-                    whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.9)" }}
+                    whileHover={{
+                      scale: 1.02,
+                      backgroundColor: "rgba(255,255,255,0.9)",
+                    }}
                     className={`p-3 px-4 border-b border-white/30 last:border-0 text-gray-700 cursor-pointer flex items-center gap-3 ${
                       selectedMood?.name === mood.name ? "bg-pink-300/80" : ""
                     }`}
@@ -109,7 +112,6 @@ const Dropdown = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setGenreOpen(!genreOpen)}
-            
             className="w-full p-4 rounded-xl cursor-pointer bg-white/90 backdrop-blur-sm border-2 border-white/50 text-gray-800 font-medium text-lg shadow-lg flex justify-between items-center"
           >
             <div className="flex items-center gap-2">
@@ -124,7 +126,7 @@ const Dropdown = () => {
               ⌄
             </motion.span>
           </motion.button>
-          
+
           <AnimatePresence>
             {genreOpen && (
               <motion.ul
@@ -138,7 +140,10 @@ const Dropdown = () => {
                   <motion.li
                     key={genre.name}
                     onClick={() => handleGenreSelect(genre)}
-                    whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.9)" }}
+                    whileHover={{
+                      scale: 1.02,
+                      backgroundColor: "rgba(255,255,255,0.9)",
+                    }}
                     className={`p-3 px-4 border-b border-white/30 last:border-0 text-gray-700 cursor-pointer flex items-center gap-3 ${
                       selectedGenre?.name === genre.name ? "bg-pink-300/80" : ""
                     }`}
