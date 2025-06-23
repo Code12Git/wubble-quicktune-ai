@@ -71,18 +71,16 @@ API runs at http://localhost:3001
 Frontend runs at http://localhost:5173
 ```
 ### Folder Structure
-css
-Copy
-Edit
+``` bash
 wubble-quicktune-mini/
-├── backend/
+├── wubble-quicktune-backend/
 │   └── server.js
-├── frontend/
+├── wubble-quicktune-frontend/
 │   ├── src/
 │   ├── App.jsx
 │   └── ...
 ├── README.md
-├── FUTURE.md
+```
 ### Logic Highlights
 - Simulated generation delay using setTimeout
 
@@ -109,7 +107,7 @@ wubble-quicktune-mini/
 ### Contact
 If you have questions or feedback:
 
-- Email: sasxenasaksham46@gmail.com
+- Email: saxenasaksham46@gmail.com
 
 ### License
 MIT License
