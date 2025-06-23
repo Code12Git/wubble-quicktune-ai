@@ -111,11 +111,6 @@ If you have questions or feedback:
 
 ### License
 MIT License
-
-yaml
-Copy
-Edit
-
 ---
 
 
